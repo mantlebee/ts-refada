@@ -2,7 +2,7 @@
 
 > Typescript implementation of REFADA concepts. Right now, the Typescript implementation is the only one existing, but REFADA concepts can be moved to other languages, like `python`.
 
-# REFADA - REal FAke DAta
+# REFADA - Real Fake Data
 
 REFADA allows to generate fake but consistent data that satisies your requirements.
 With REFADA each "end date" comes after the "start date", or the count of "completed tasks" are equal or lower the count of "total tasks".

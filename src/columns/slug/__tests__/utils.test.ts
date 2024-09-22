@@ -9,7 +9,7 @@ describe("SlugColumn", () => {
           { name: "I'm the best ! The #1" },
           { sourceField: "name" }
         );
-        expect(slug).toBe("im-the-best--the-1");
+        expect(slug).toBe("im-the-best-the-1");
       });
     });
   });
