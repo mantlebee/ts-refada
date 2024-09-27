@@ -42,7 +42,7 @@
     "typescript": "^5.5.4"
   },
   "dependencies": {
-    "@mantlebee/ts-core": "^0.23.1",
-    "@mantlebee/ts-random": "^0.4.1"
+    "@mantlebee/ts-core": "^0.24.1",
+    "@mantlebee/ts-random": "^0.5.1"
   }
 }

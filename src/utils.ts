@@ -98,7 +98,7 @@ export function getTableRows<TRow>(
     const row: TRow = {} as TRow;
     columns.forEach((a) => {
       const options = getValue(a.options, row)!;
-      if (shouldBeNull(a, options)) row[a.name] = null as TRow[KeyOf<TRow>];
+      if (shouldBeNull(options, a)) row[a.name] = null as TRow[KeyOf<TRow>];
       else row[a.name] = a.getValue(row);
     });
     items.push(row);
@@ -109,17 +109,17 @@ export function getTableRows<TRow>(
 /**
  * Defines if the column value must be set on `null`.
  * The output depends on the following cases:
- * - the column is not nullable => false.
- * - the column is a relation column and it is nullable => true (ignoring that the nullable option could be a probability percentage).
  * - the nullable option is a probability percentage => generates a random percentage and returns true if it is less or equal the nullable option value..
  * - the nullable option is a boolean => generates a random boolean.
- * @param column Column processing during the table rows generation.
+ * - the column (if given) is not nullable => false.
+ * - the column (if given) is a relation column and it is nullable => true (ignoring that the nullable option could be a probability percentage).
  * @param options The column options, where the nullable option can be a boolean or a probability percentage.
+ * @param column Column processing during the table rows generation.
  * @returns A boolean value indicating if the row value of the current column must be set on `null`.
  */
 export function shouldBeNull<TRow>(
-  column: IColumn<TRow>,
-  options: ColumnOptions
+  options: ColumnOptions,
+  column?: IColumn<TRow>
 ): boolean {
   const { nullable } = options;
   // Value is not `null` if nullable is `false` or `0`.

@@ -1,21 +1,18 @@
-import { KeyOf, List, Nullable } from "@mantlebee/ts-core";
-import { extractRandomItems } from "@mantlebee/ts-random";
+import {
+  Any,
+  getValue,
+  KeyOf,
+  List,
+  Nullable,
+  ValueOrGetter,
+} from "@mantlebee/ts-core";
+import { extractRandomItem } from "@mantlebee/ts-random";
 
 import { IDatabase } from "@/interfaces";
+import { shouldBeNull } from "@/utils";
 
 import { LookupRelationColumn } from "./models";
-import { TargetRowInfo } from "./types";
-
-function createChunks<T>(list: List<T>, size: number): List<List<T>> {
-  const chunks: List<List<T>> = [];
-  const listClone = [...list];
-  while (chunks.length < size) {
-    // last run
-    if (chunks.length === size - 1) chunks.push(listClone);
-    else chunks.push(extractRandomItems(listClone, true));
-  }
-  return chunks;
-}
+import { LookupRelationColumnOptions, TargetRowInfo } from "./types";
 
 export function getTargetRowInfo<TSourceRow, TTargetRow>(
   sourceColumn: LookupRelationColumn<TSourceRow, TTargetRow>,
@@ -39,14 +36,21 @@ export function setRelationLookupValues<TSourceRow, TTargetRow>(
   sourceColumnName: KeyOf<TSourceRow>,
   targetColumnName: KeyOf<TTargetRow>,
   sourceRows: List<TSourceRow>,
-  targetRows: List<TTargetRow>
+  targetRows: List<TTargetRow>,
+  options: ValueOrGetter<
+    LookupRelationColumnOptions<TSourceRow, TTargetRow>,
+    TSourceRow
+  > = {}
 ): void {
-  const sourceRowsChunk = createChunks(sourceRows, targetRows.length);
-  targetRows.forEach((targetRow, index) => {
-    sourceRowsChunk[index].forEach((sourceRow) => {
-      sourceRow[sourceColumnName] = targetRow[
-        targetColumnName
-      ] as unknown as TSourceRow[KeyOf<TSourceRow>];
-    });
+  sourceRows.forEach((sourceRow) => {
+    const rowOptions = getValue(options, sourceRow);
+    if (shouldBeNull(rowOptions)) sourceRow[sourceColumnName] = null as Any;
+    else {
+      const availableTargetRows = rowOptions?.filter
+        ? targetRows.filter((a) => rowOptions?.filter!(a, sourceRow))
+        : targetRows;
+      const targetRow = extractRandomItem(availableTargetRows);
+      sourceRow[sourceColumnName] = targetRow[targetColumnName] as Any;
+    }
   });
 }

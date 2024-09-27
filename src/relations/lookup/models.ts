@@ -2,23 +2,30 @@ import { Any, KeyOf, List, Nullable, ValueOrGetter } from "@mantlebee/ts-core";
 
 import { IDatabase } from "@/interfaces";
 import { ColumnRelationAbstract } from "@/models";
-import { ColumnOptions, TableKey } from "@/types";
+import { TableKey } from "@/types";
 
+import { LookupRelationColumnOptions, TargetRowInfo } from "./types";
 import { getTargetRowInfo, setRelationLookupValues } from "./utils";
-import { TargetRowInfo } from "./types";
 
 export class LookupRelationColumn<
   TRow,
   TTargetRow,
   TValue = Any,
-  TOptions extends ColumnOptions = ColumnOptions,
-> extends ColumnRelationAbstract<TRow, TTargetRow, TValue, TOptions> {
+> extends ColumnRelationAbstract<
+  TRow,
+  TTargetRow,
+  TValue,
+  LookupRelationColumnOptions<TRow, TTargetRow>
+> {
   public constructor(
     name: KeyOf<TRow>,
     defaultValue: TValue,
     targetTableKey: TableKey<TTargetRow>,
     public readonly targetColumnName: KeyOf<TTargetRow>,
-    options: ValueOrGetter<TOptions, TRow> = {} as TOptions
+    options: ValueOrGetter<
+      LookupRelationColumnOptions<TRow, TTargetRow>,
+      TRow
+    > = {}
   ) {
     super(name, defaultValue, targetTableKey, options);
   }
@@ -38,6 +45,12 @@ export class LookupRelationColumn<
 
   public setValues(sourceRows: List<TRow>, targetRows: List<TTargetRow>): void {
     const { name, targetColumnName } = this;
-    setRelationLookupValues(name, targetColumnName, sourceRows, targetRows);
+    setRelationLookupValues(
+      name,
+      targetColumnName,
+      sourceRows,
+      targetRows,
+      this.options
+    );
   }
 }

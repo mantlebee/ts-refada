@@ -2,22 +2,29 @@ import { Any, KeyOf, List, Nullable, ValueOrGetter } from "@mantlebee/ts-core";
 
 import { IDatabase } from "@/interfaces";
 import { ColumnRelationAbstract } from "@/models";
-import { ColumnOptions, TableKey } from "@/types";
+import { TableKey } from "@/types";
 
 import { getTargetRowInfo, setRelationMultiselectionValues } from "./utils";
-import { TargetRowInfo } from "./types";
+import { MultiselectionRelationColumnOptions, TargetRowInfo } from "./types";
 
 export class MultiselectionRelationColumn<
   TRow,
   TTargetRow,
   TValue = Any,
-  TOptions extends ColumnOptions = ColumnOptions,
-> extends ColumnRelationAbstract<TRow, TTargetRow, List<TValue>, TOptions> {
+> extends ColumnRelationAbstract<
+  TRow,
+  TTargetRow,
+  List<TValue>,
+  MultiselectionRelationColumnOptions<TRow, TTargetRow>
+> {
   public constructor(
     name: KeyOf<TRow>,
     targetTableKey: TableKey<TTargetRow>,
     public readonly targetColumnName: KeyOf<TTargetRow>,
-    options: ValueOrGetter<TOptions, TRow> = {} as TOptions
+    options: ValueOrGetter<
+      MultiselectionRelationColumnOptions<TRow, TTargetRow>,
+      TRow
+    > = {}
   ) {
     super(name, [], targetTableKey, options);
   }
@@ -35,7 +42,8 @@ export class MultiselectionRelationColumn<
       name,
       targetColumnName,
       sourceRows,
-      targetRows
+      targetRows,
+      this.options
     );
   }
 }
