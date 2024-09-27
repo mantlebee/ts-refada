@@ -153,12 +153,10 @@ We separate operations in steps.
  */
 
 import {
-  BooleanColumn,
   ConstantColumn,
   createTableKey,
   Database,
   DateColumn,
-  EmailColumn,
   FirstNameColumn,
   IdColumn,
   LastNameColumn,
@@ -300,16 +298,32 @@ const orderProductsTable = new TableDetail<OrderProduct, Order>(
   ]
 );
 
+/**
+ * Fields `userAddressId` and `userPaymentMethodId` can't be picked randomly,
+ * from their own tables, because picked items could belongs to users
+ * that don't match the user of the order.
+ * We use the {@link filter} options of the {@link LookupRelationColumn},
+ * to garantuee us to pick an address and a payment method
+ * that belongs to the user of the order.
+ * ATTENTION:
+ */
 const ordersTable = new Table<Order>(OrdersTableKey, [
   new IdColumn("id"),
   new DateColumn("orderedOn"),
-  new LookupRelationColumn("userAddressId", 0, UserAddressesTableKey, "id"),
   new LookupRelationColumn("userId", 0, UsersTableKey, "id"),
+  new LookupRelationColumn(
+    "userAddressId",
+    0,
+    UserAddressesTableKey,
+    "id",
+    (a) => ({ filter: (address) => address.userId === a.userId })
+  ),
   new LookupRelationColumn(
     "userPaymentMethodId",
     0,
     UserPaymentMethodsTableKey,
-    "id"
+    "id",
+    (a) => ({ filter: (paymentMethod) => paymentMethod.userId === a.userId })
   ),
 ]);
 
