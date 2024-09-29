@@ -1,6 +1,6 @@
 {
   "name": "@mantlebee/ts-refada",
-  "version": "1.0.2",
+  "version": "1.0.6",
   "description": "Generate fake but consistent data, that satisfies your requirements. REFADA stands for Real Fake Data.",
   "main": "dist/index.js",
   "type": "module",

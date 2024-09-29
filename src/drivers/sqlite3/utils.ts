@@ -1,7 +1,8 @@
-import { Any, isNullOrUndefined, List } from "@mantlebee/ts-core";
+import { Any, isNumber, List } from "@mantlebee/ts-core";
 
 import { BooleanColumn, DateColumn, IdColumn, NumberColumn } from "@/columns";
 import { IColumn } from "@/interfaces";
+import { MultiselectionRelationColumn } from "@/relations";
 
 import { ValueConverterDefault } from "./constants";
 import { ValueConverter } from "./types";
@@ -35,6 +36,9 @@ function createValueConvertersMap<TRow>(
           );
       else if (current instanceof IdColumn || current instanceof NumberColumn)
         converter = (a) => a;
+      else if (current instanceof MultiselectionRelationColumn)
+        converter = (values) =>
+          values.map((a: Any) => (isNumber(a) ? a : ValueConverterDefault(a)));
       result[current.name] = converter;
       return result;
     },
