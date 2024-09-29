@@ -1,5 +1,5 @@
 import { ITable } from "@/interfaces";
-import { Table, TableDetail } from "@/models";
+import { Table, TableConstant, TableDetail } from "@/models";
 
 import { adaptRowsValues } from "./utils";
 
@@ -10,6 +10,8 @@ export class Sqlite3Table<TRow> extends Table<TRow> {
     return this;
   }
 }
+
+export class Sqlite3TableConstant<TRow> extends TableConstant<TRow> {}
 
 export class Sqlite3TableDetail<TRow, TMasterRow> extends TableDetail<
   TRow,

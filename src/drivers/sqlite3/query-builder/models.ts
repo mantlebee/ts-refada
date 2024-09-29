@@ -7,7 +7,6 @@ import { MultiselectionRelationColumn } from "@/relations";
 import { createDeleteQuery, createInsertQuery } from "./utils";
 
 export class Sqlite3TableQueryBuilder<TRow> implements ITableQueryBuilder {
-  private readonly columnNames: List<string>;
   private readonly relations: List<QueryRelation<TRow>>;
 
   public constructor(
@@ -21,9 +20,6 @@ export class Sqlite3TableQueryBuilder<TRow> implements ITableQueryBuilder {
       sourceRow: TRow
     ) => List<TRow>
   ) {
-    this.columnNames = table.columns
-      .filter((a) => !(a instanceof MultiselectionRelationColumn))
-      .map((a) => a.name);
     this.relations = table.columns
       .filter((a) => a instanceof MultiselectionRelationColumn)
       .map((a) => ({
@@ -38,7 +34,7 @@ export class Sqlite3TableQueryBuilder<TRow> implements ITableQueryBuilder {
 
   public getDeleteQuery(): string {
     return createDeleteQuery(
-      this.tableName,
+      this.table,
       this.relations,
       this.getRelationTableName
     );
@@ -47,8 +43,7 @@ export class Sqlite3TableQueryBuilder<TRow> implements ITableQueryBuilder {
     const rows = this.table.getRows();
     if (!rows.length) return "";
     return createInsertQuery(
-      this.tableName,
-      this.columnNames,
+      this.table,
       this.relations,
       this.getRelationTableName,
       this.getRelationRows,

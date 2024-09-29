@@ -1,26 +1,35 @@
 import { Any, List } from "@mantlebee/ts-core";
 
 import { QueryRelation } from "@/drivers";
+import { ITable } from "@/interfaces";
+import { TableConstant } from "@/models";
+import { MultiselectionRelationColumn } from "@/relations";
 
 export function createDeleteQuery<TRow>(
-  tableName: string,
+  table: ITable<TRow>,
   relations: List<QueryRelation<TRow>>,
   getRelationTableName: (relation: QueryRelation<TRow>) => string
 ): string {
-  let query = getDeleteQuery(tableName);
+  let query = "";
+  if (!(table instanceof TableConstant)) getDeleteQuery(table.name);
   relations.forEach((a) => (query += getDeleteQuery(getRelationTableName(a))));
   return query;
 }
 
 export function createInsertQuery<TRow>(
-  tableName: string,
-  columnNames: List<string>,
+  table: ITable<TRow>,
   relations: List<QueryRelation<TRow>>,
   getRelationTableName: (relation: QueryRelation<TRow>) => string,
   getRelationRows: (relation: QueryRelation<TRow>, row: TRow) => List<TRow>,
   rows: List<TRow>
 ): string {
-  let query = getInsertQuery(tableName, columnNames, rows);
+  let query = "";
+  if (!(table instanceof TableConstant)) {
+    const columnNames = table.columns
+      .filter((a) => !(a instanceof MultiselectionRelationColumn))
+      .map((a) => a.name);
+    getInsertQuery(table.name, columnNames, rows);
+  }
   rows.forEach((row) => {
     relations.forEach((a) => {
       const relationRows = getRelationRows(a, row);

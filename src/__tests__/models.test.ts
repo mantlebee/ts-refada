@@ -1,7 +1,7 @@
 import { Any, List } from "@mantlebee/ts-core";
 
 import { ConstantColumn, IdColumn } from "@/columns";
-import { Database, Table, TableDetail } from "@/models";
+import { Database, Table, TableConstant, TableDetail } from "@/models";
 import { LookupRelationColumn } from "@/relations";
 import { createTableKey } from "@/utils";
 
@@ -82,6 +82,17 @@ describe("models", () => {
         .seed(42)
         .getRows();
       expect(rows).toHaveLength(42);
+    });
+  });
+  describe("TableConstant", () => {
+    it("rows never change", () => {
+      const rows: List<Category> = [
+        { id: 1, name: "C1" },
+        { id: 2, name: "C2" },
+      ];
+      const table = new TableConstant(categoriesTableKey, rows);
+      table.seed(100);
+      expect(table.getRows()).toBe(rows);
     });
   });
   describe("TableDetail", () => {

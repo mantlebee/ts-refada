@@ -134,6 +134,31 @@ export class Table<TRow> implements ITable<TRow> {
 }
 
 /**
+ * Implementation of {@link ITable} for constant tables.
+ * Constant tables are tables where data never changes.
+ * In constant tables, columns are optional.
+ */
+export class TableConstant<TRow> extends Table<TRow> {
+  public constructor(
+    key: TableKey<TRow>,
+    rows: List<TRow>,
+    columns: List<IColumn<TRow>> = [],
+    getRowLabelDelegate?: (row: TRow) => string
+  ) {
+    super(key, columns, getRowLabelDelegate);
+    this._rows = rows;
+  }
+
+  public seed(rowsCount: NumberOrRange): ITable<TRow> {
+    return this;
+  }
+
+  public updateRows(rows: List<TRow>) {
+    this._rows = rows;
+  }
+}
+
+/**
  * Represents a detail table that depends on a row of another table.
  * Useful for generating detail rows based on values of a master row of a different table.
  * It works like a normal table, but the {@link setMasterRow} method must be called before the {@link seed} one.
