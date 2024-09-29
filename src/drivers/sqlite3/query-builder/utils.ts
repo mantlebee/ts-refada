@@ -3,7 +3,7 @@ import { Any, List } from "@mantlebee/ts-core";
 import { QueryRelation } from "@/drivers";
 import { ITable } from "@/interfaces";
 import { MultiselectionRelationColumn } from "@/relations";
-import { TableConstant } from "@/tables";
+import { ConstantTable } from "@/tables";
 
 export function createDeleteQuery<TRow>(
   table: ITable<TRow>,
@@ -11,7 +11,7 @@ export function createDeleteQuery<TRow>(
   getRelationTableName: (relation: QueryRelation<TRow>) => string
 ): string {
   let query = "";
-  if (!(table instanceof TableConstant)) getDeleteQuery(table.name);
+  if (!(table instanceof ConstantTable)) getDeleteQuery(table.name);
   relations.forEach((a) => (query += getDeleteQuery(getRelationTableName(a))));
   return query;
 }
@@ -24,7 +24,7 @@ export function createInsertQuery<TRow>(
   rows: List<TRow>
 ): string {
   let query = "";
-  if (!(table instanceof TableConstant)) {
+  if (!(table instanceof ConstantTable)) {
     const columnNames = table.columns
       .filter((a) => !(a instanceof MultiselectionRelationColumn))
       .map((a) => a.name);

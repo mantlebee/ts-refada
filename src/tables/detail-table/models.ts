@@ -14,7 +14,7 @@ import { Table } from "../table";
  * @typeParam TRow - Type of the detail row.
  * @typeParam TMasterRow - Type of the master row.
  */
-export class TableDetail<TRow, TMasterRow>
+export class DetailTable<TRow, TMasterRow>
   extends Table<TRow>
   implements ITable<TRow>
 {

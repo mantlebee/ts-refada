@@ -11,7 +11,7 @@ import { Table } from "../table";
  * Constant tables are tables where data never changes.
  * In constant tables, columns are optional.
  */
-export class TableConstant<TRow> extends Table<TRow> {
+export class ConstantTable<TRow> extends Table<TRow> {
   public constructor(
     key: TableKey<TRow>,
     rows: List<TRow>,

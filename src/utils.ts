@@ -7,7 +7,7 @@ import {
 import { IColumn, ITable } from "./interfaces";
 import { ColumnRelationAbstract } from "./models";
 import { getNumberFromRange, NumberOrRange } from "./support";
-import { TableDetail } from "./tables";
+import { DetailTable } from "./tables";
 import { ColumnOptions, RowsCountsMap, Dataset, TableKey } from "./types";
 
 /**
@@ -53,11 +53,11 @@ export function getDatabaseDataset(
       });
   };
 
-  const masterTables = tables.filter((a) => !(a instanceof TableDetail));
+  const masterTables = tables.filter((a) => !(a instanceof DetailTable));
   masterTables.forEach(updateDataset);
   masterTables.forEach(updateRelationValues);
 
-  const detailTables = tables.filter((a) => a instanceof TableDetail);
+  const detailTables = tables.filter((a) => a instanceof DetailTable);
   detailTables.forEach((table) => {
     table.reset();
     const masterRows = dataset[table.targetTableKey];

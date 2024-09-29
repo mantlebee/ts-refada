@@ -3,7 +3,7 @@ import { Any, List } from "@mantlebee/ts-core";
 import { ConstantColumn, IdColumn } from "@/columns";
 import { Database } from "@/models";
 import { LookupRelationColumn } from "@/relations";
-import { Table, TableConstant, TableDetail } from "@/tables";
+import { Table, ConstantTable, DetailTable } from "@/tables";
 import { createTableKey } from "@/utils";
 
 type Category = { id: number; name: string };
@@ -20,7 +20,7 @@ describe("models", () => {
       new IdColumn("id"),
       new LookupRelationColumn("category", 0, categoriesTableKey, "id"),
     ]);
-    const productsTableDetail = new TableDetail(
+    const productsDetailTable = new DetailTable(
       productsTableKey,
       categoriesTableKey,
       (a) => [new IdColumn("id"), new ConstantColumn("category", a.id)]
@@ -55,13 +55,13 @@ describe("models", () => {
     });
     describe("detail tables", () => {
       it("detail tables' rows count is the rows count of the detail table multiplied the rows count of its master table", () => {
-        const dataset = new Database([categoriesTable, productsTableDetail])
+        const dataset = new Database([categoriesTable, productsDetailTable])
           .seed({ [productsTableKey]: 2, [categoriesTableKey]: 5 })
           .getDataset();
         expect(dataset[productsTableKey]).toHaveLength(10);
       });
       it("detail tables' rows are cleared on every seed", () => {
-        const database = new Database([categoriesTable, productsTableDetail]);
+        const database = new Database([categoriesTable, productsDetailTable]);
         const dataset1 = database
           .seed({ [productsTableKey]: 1, [categoriesTableKey]: 2 })
           .getDataset();
@@ -85,20 +85,20 @@ describe("models", () => {
       expect(rows).toHaveLength(42);
     });
   });
-  describe("TableConstant", () => {
+  describe("ConstantTable", () => {
     it("rows never change", () => {
       const rows: List<Category> = [
         { id: 1, name: "C1" },
         { id: 2, name: "C2" },
       ];
-      const table = new TableConstant(categoriesTableKey, rows);
+      const table = new ConstantTable(categoriesTableKey, rows);
       table.seed(100);
       expect(table.getRows()).toBe(rows);
     });
   });
-  describe("TableDetail", () => {
+  describe("DetailTable", () => {
     it("has no columns, on create", () => {
-      const { columns } = new TableDetail(
+      const { columns } = new DetailTable(
         productsTableKey,
         categoriesTableKey,
         () => [new IdColumn("id")]
@@ -111,7 +111,7 @@ describe("models", () => {
         { id: 42, name: "" },
         { id: 84, name: "" },
       ];
-      const detailTable = new TableDetail(
+      const detailTable = new DetailTable(
         productsTableKey,
         categoriesTableKey,
         (a) => [new IdColumn("id"), new ConstantColumn("category", a.id)]

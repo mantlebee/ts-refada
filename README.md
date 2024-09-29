@@ -164,7 +164,7 @@ import {
   NumberColumn,
   PatternColumn,
   Table,
-  TableDetail,
+  DetailTable,
   TitleColumn,
 } from "@mantlebee/ts-refada";
 
@@ -287,7 +287,7 @@ const UsersTableKey = createTableKey<User>("Users");
  * Using a classic table with a `LookupRelationColumn` doesn't assure us
  * that each order would have at least one ordered product.
  */
-const orderProductsTable = new TableDetail<OrderProduct, Order>(
+const orderProductsTable = new DetailTable<OrderProduct, Order>(
   OrderProductsTableKey,
   OrdersTableKey,
   (order) => [
@@ -351,7 +351,7 @@ const productsTable = new Table<Product>(ProductsTableKey, [
  * The user addresses table is a detail table,
  * because we want at least one address for each user.
  */
-const userAddressesTable = new TableDetail<UserAddress, User>(
+const userAddressesTable = new DetailTable<UserAddress, User>(
   UserAddressesTableKey,
   UsersTableKey,
   (user) => [
@@ -365,7 +365,7 @@ const userAddressesTable = new TableDetail<UserAddress, User>(
  * The user payment methods table is a detail table,
  * because we want at least one payment method for each user.
  */
-const userPaymentMethodsTable = new TableDetail<UserPaymentMethod, User>(
+const userPaymentMethodsTable = new DetailTable<UserPaymentMethod, User>(
   UserPaymentMethodsTableKey,
   UsersTableKey,
   (user) => [
@@ -382,7 +382,7 @@ const userPaymentMethodsTable = new TableDetail<UserPaymentMethod, User>(
  * The users preferences table is a detail table,
  * because we want at least one user preference for each user.
  */
-const usersPreferencesTable = new TableDetail<UserPreferences, User>(
+const usersPreferencesTable = new DetailTable<UserPreferences, User>(
   UsersPreferencesTableKey,
   UsersTableKey,
   (user) => [
