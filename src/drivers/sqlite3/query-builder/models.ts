@@ -1,4 +1,4 @@
-import { List } from "@mantlebee/ts-core";
+import { Any, List } from "@mantlebee/ts-core";
 
 import { ITableQueryBuilder, QueryRelation } from "@/drivers";
 import { IDatabase, ITable } from "@/interfaces";
@@ -18,7 +18,7 @@ export class Sqlite3TableQueryBuilder<TRow> implements ITableQueryBuilder {
     private readonly getRelationRows: (
       relation: QueryRelation<TRow>,
       sourceRow: TRow
-    ) => List<TRow>
+    ) => List<Any>
   ) {
     this.relations = table.columns
       .filter((a) => a instanceof MultiselectionRelationColumn)

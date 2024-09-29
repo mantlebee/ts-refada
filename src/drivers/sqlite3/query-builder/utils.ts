@@ -10,46 +10,50 @@ export function createDeleteQuery<TRow>(
   relations: List<QueryRelation<TRow>>,
   getRelationTableName: (relation: QueryRelation<TRow>) => string
 ): string {
-  let query = "";
-  if (!(table instanceof ConstantTable)) getDeleteQuery(table.name);
-  relations.forEach((a) => (query += getDeleteQuery(getRelationTableName(a))));
-  return query;
+  let queries = [];
+  if (!(table instanceof ConstantTable))
+    queries.push(getDeleteQuery(table.name));
+  relations.forEach((a) =>
+    queries.push(getDeleteQuery(getRelationTableName(a)))
+  );
+  return queries.join(" ");
 }
 
 export function createInsertQuery<TRow>(
   table: ITable<TRow>,
   relations: List<QueryRelation<TRow>>,
   getRelationTableName: (relation: QueryRelation<TRow>) => string,
-  getRelationRows: (relation: QueryRelation<TRow>, row: TRow) => List<TRow>,
+  getRelationRows: (relation: QueryRelation<TRow>, row: TRow) => List<Any>,
   rows: List<TRow>
 ): string {
-  let query = "";
+  let queries = [];
   if (!(table instanceof ConstantTable)) {
     const columnNames = table.columns
       .filter((a) => !(a instanceof MultiselectionRelationColumn))
       .map((a) => a.name);
-    getInsertQuery(table.name, columnNames, rows);
+    queries.push(getInsertQuery(table.name, columnNames, rows));
   }
   rows.forEach((row) => {
     relations.forEach((a) => {
       const relationRows = getRelationRows(a, row);
       if (!relationRows.length) return;
       const relationColumnNames = Object.keys(relationRows[0] as Any);
-      query += getInsertQuery(
+      const relationQuery = getInsertQuery(
         getRelationTableName(a),
         relationColumnNames,
         relationRows
       );
+      queries.push(relationQuery);
     });
   });
-  return query;
+  return queries.join(" ");
 }
 
-function getDeleteQuery(tableName: string): string {
+export function getDeleteQuery(tableName: string): string {
   return `DELETE FROM ${tableName};`;
 }
 
-function getInsertQuery(
+export function getInsertQuery(
   tableName: string,
   columnNames: List<string>,
   rows: List<Any>
