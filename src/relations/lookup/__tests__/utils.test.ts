@@ -1,7 +1,8 @@
 import { List } from "@mantlebee/ts-core";
 
 import { IdColumn } from "@/columns";
-import { Database, Table } from "@/models";
+import { Database } from "@/models";
+import { Table } from "@/tables";
 import { createTableKey } from "@/utils";
 
 import { LookupRelationColumn } from "../models";

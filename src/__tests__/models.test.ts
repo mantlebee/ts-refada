@@ -1,8 +1,9 @@
 import { Any, List } from "@mantlebee/ts-core";
 
 import { ConstantColumn, IdColumn } from "@/columns";
-import { Database, Table, TableConstant, TableDetail } from "@/models";
+import { Database } from "@/models";
 import { LookupRelationColumn } from "@/relations";
+import { Table, TableConstant, TableDetail } from "@/tables";
 import { createTableKey } from "@/utils";
 
 type Category = { id: number; name: string };

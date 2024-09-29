@@ -2,8 +2,8 @@ import { Any, List } from "@mantlebee/ts-core";
 
 import { QueryRelation } from "@/drivers";
 import { ITable } from "@/interfaces";
-import { TableConstant } from "@/models";
 import { MultiselectionRelationColumn } from "@/relations";
+import { TableConstant } from "@/tables";
 
 export function createDeleteQuery<TRow>(
   table: ITable<TRow>,

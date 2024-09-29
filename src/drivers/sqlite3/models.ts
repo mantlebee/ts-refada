@@ -1,5 +1,5 @@
 import { ITable } from "@/interfaces";
-import { Table, TableConstant, TableDetail } from "@/models";
+import { Table, TableConstant, TableDetail } from "@/tables";
 
 import { adaptRowsValues } from "./utils";
 

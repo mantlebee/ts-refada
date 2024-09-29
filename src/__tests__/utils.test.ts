@@ -35,6 +35,7 @@ import {
   CustomRelationColumn,
   LookupRelationColumn,
 } from "@/relations";
+import { Table } from "@/tables";
 import {
   createTableKey,
   getDatabaseDataset,
@@ -42,8 +43,6 @@ import {
   getTableRows,
   shouldBeNull,
 } from "@/utils";
-
-import { Table } from "../models";
 
 const ordersKey = createTableKey<Order>("orders");
 const orderProductsKey = createTableKey<OrderProduct>("order-products");

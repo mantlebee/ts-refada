@@ -7,3 +7,4 @@ export * from "./columns";
 export * from "./constants";
 export * from "./drivers";
 export * from "./relations";
+export * from "./tables";

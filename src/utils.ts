@@ -5,8 +5,9 @@ import {
 } from "@mantlebee/ts-random";
 
 import { IColumn, ITable } from "./interfaces";
-import { ColumnRelationAbstract, Table, TableDetail } from "./models";
+import { ColumnRelationAbstract } from "./models";
 import { getNumberFromRange, NumberOrRange } from "./support";
+import { TableDetail } from "./tables";
 import { ColumnOptions, RowsCountsMap, Dataset, TableKey } from "./types";
 
 /**
