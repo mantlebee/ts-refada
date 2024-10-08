@@ -12,7 +12,7 @@ export class PatternColumn<TRow> extends ColumnAbstract<TRow, string> {
 
   /**
    * @param name Name of the column and of the field.
-   * @param pattern Pattern that the random string must be satisfies.
+   * @param pattern Pattern that the random string has to satisfy.
    */
   public constructor(name: KeyOf<TRow>, pattern: string) {
     super(name);

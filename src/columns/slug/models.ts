@@ -6,7 +6,7 @@ import { SlugColumnOptions } from "./types";
 import { getSlugColumnValue } from "./utils";
 
 /**
- * Convert a field value to a slug.
+ * Converts a string field value into a slug.
  */
 export class SlugColumn<TRow> extends ColumnAbstract<
   TRow,

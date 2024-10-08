@@ -7,7 +7,8 @@ import { getStringColumnValue } from "./utils";
 
 /**
  * Generates a random string.
- * It is possible to restrict the min and max length, and which symbols must be included.
+ * It is possible to restrict the min and max length,
+ * and which symbols must be included or excluded.
  */
 export class StringColumn<TRow> extends ColumnAbstract<
   TRow,

@@ -13,10 +13,11 @@ export class IdColumn<TRow> extends ColumnAbstract<TRow, number> {
    * @param name Name of the column and of the field.
    * @param startsFrom Initial value, default is 1.
    */
-  public constructor(name: KeyOf<TRow>, startsFrom: number = 1) {
+  public constructor(name: KeyOf<TRow>, startsFrom?: number) {
     super(name);
-    const lastValue = startsFrom - 1;
-    this.identityManager = new NumericIdentityManager(lastValue);
+    this.identityManager = new NumericIdentityManager(
+      startsFrom && startsFrom - 1
+    );
   }
 
   public getValue(): number {

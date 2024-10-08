@@ -4,7 +4,7 @@ import { ColumnAbstract } from "@/models";
 import { ColumnOptions } from "@/types";
 
 /**
- * Returns a constant value
+ * Returns always a constant value.
  */
 export class ConstantColumn<
   TRow,

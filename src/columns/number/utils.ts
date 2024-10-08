@@ -9,6 +9,6 @@ import { NumberColumnOptions } from "./types";
  * @returns a random number.
  */
 export function getNumberColumnValue(options?: NumberColumnOptions): number {
-  let { decimals = 0, max = 100, min = 0 } = { ...options };
+  let { decimals, max = 100, min } = { ...options };
   return generateRandomNumber(max, min, decimals);
 }

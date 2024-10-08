@@ -7,6 +7,8 @@ import { getProbabilityColumnValue } from "./utils";
 
 /**
  * Extract a random value from the probability map ({@link ProbabilityValuesMap}), given as option.
+ * The {@link ProbabilityValuesMap} offers the opportunity to use 0 and 100 as percentage of probability,
+ * to force some values to be completly avoided or chosen, using other values of the generated row as reference.
  */
 export class ProbabilityColumn<TRow, TValue> extends ColumnAbstract<
   TRow,
