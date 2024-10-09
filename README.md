@@ -8,10 +8,12 @@ REFADA allows to generate fake but consistent data that satisies your requiremen
 With REFADA each "end date" comes after the "start date", or the count of "completed tasks" are equal or lower the count of "total tasks".
 Most important is the possibility to generate data related between different tables, like lookup/multiselection relations or detail tables which values depend on a master table.
 
-The REFADA project consists of following concepts:
+The REFADA project consists of following [concepts](#concepts):
 
 - [Tables and Columns](#tables-and-columns): the simplest use of REFADA, to generate data for a specific table.
 - [Database, Relation Columns, and Detail Tables](#database-relation-columns-and-detail-tables): the more advanced way to use REFADA, to generate tables, where data is related between them.
+
+In the next chapter we will introduce these concepts. For a full reference, instead, have a look to the Wiki.
 
 ## Concepts
 
@@ -25,12 +27,16 @@ Let's have a look to an example!
 
 We need to generate 1000 users, where each user is defined by the following fields:
 
-- **id**: unique and incremental number.
-- **firstName**
-- **lastName**
-- **active**: simple boolean value.
-- **age**: a number between 20 and 80.
-- **email**: in the format `firstName.lastName@*.*`, where domain and extension have no restrictions.
+| Field         | Description                                                                              |
+| ------------- | ---------------------------------------------------------------------------------------- |
+| **id**        | unique and incremental number.                                                           |
+| **firstName** | name.                                                                                    |
+| **lastName**  | surname.                                                                                 |
+| **active**    | simple boolean value.                                                                    |
+| **age**       | a number between 20 and 80.                                                              |
+| **email**     | in the format `firstName.lastName@*.*`, where domain and extension have no restrictions. |
+
+Here the code!
 
 ```typescript
 import {
@@ -97,6 +103,7 @@ const users = usersTable.seed(1000).getRows();
 In this example we wanted to generate exactly 1000 users, but we could define a range too.
 
 ```typescript
+// Generates a random number of users, between 100 and 500.
 const users = usersTable.seed({ max: 500, min: 100 }).getRows();
 ```
 
@@ -128,14 +135,16 @@ Let's have a look to what we need and how we'll implement the requirements.
 
 We need 8 tables (listed alphabetically):
 
-- **Orders**: list of orders submitted by users.
-- **OrderProducts**: detail of Orders, each row represent the product chosen and added to the order.
-- **Products**: list of available products to order.
-- **ProductCategories**: list of product categories. Not necessary in the order, but added as example of category-items.
-- **Users**: list of users.
-- **UserAddress**: list of addresses. Each user can have more addresses.
-- **UserPaymentMethods**: list of payment methods. Each user can have more payment methods.
-- **UsersPreferences**: default user preferences for new orders. Each user has one UserPreferences only and it has to exists.
+| Table                  | Description                                                                                          |
+| ---------------------- | ---------------------------------------------------------------------------------------------------- |
+| **Orders**             | list of orders submitted by users.                                                                   |
+| **OrderProducts**      | detail of Orders, each row represent the product chosen and added to the order.                      |
+| **Products**           | list of available products to order.                                                                 |
+| **ProductCategories**  | list of product categories. Not necessary in the order, but added as example of category-items.      |
+| **Users**              | list of users.                                                                                       |
+| **UserAddress**        | list of addresses. Each user can have more addresses.                                                |
+| **UserPaymentMethods** | list of payment methods. Each user can have more payment methods.                                    |
+| **UsersPreferences**   | default user preferences for new orders. Each user has one UserPreferences only and ithas to exists. |
 
 We separate operations in steps.
 
@@ -143,6 +152,8 @@ We separate operations in steps.
 2. Creating table keys. _Table keys_ are used to create relations between tables, because allow us to relate column between tables that potentially can be not defined yet.
 3. Creating tables.
 4. Creating the database, seeding it and accessing to generated data.
+
+Here the code!
 
 ```typescript
 /**
