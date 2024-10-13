@@ -77,6 +77,12 @@ export function getDatabaseDataset(
   return dataset;
 }
 
+/**
+ * Typescript util method to obtain a specific typed list of rows from a dataset.
+ * @param dataset Dataset from which to get the rows.
+ * @param tableKey The typed key of the table from which to get the rows.
+ * @returns a typed list of rows.
+ */
 export const getDatasetRows = <TRow>(
   dataset: Dataset,
   tableKey: TableKey<TRow>
