@@ -7,6 +7,11 @@ import { MultiselectionRelationColumn } from "@/relations";
 import { ValueConverterDefault } from "./constants";
 import { ValueConverter } from "./types";
 
+/**
+ * Iterates on the rows to update the values.
+ * @param columns List of the columns of the rows.
+ * @param rows the rows to update the values.
+ */
 export function adaptRowsValues<TRow>(
   columns: List<IColumn<TRow>>,
   ...rows: List<TRow>
@@ -22,6 +27,12 @@ export function adaptRowsValues<TRow>(
   });
 }
 
+/**
+ * Creates a value converters map.
+ * Each converter depends on the source column value type.
+ * @param columns List of the columns for row's values convertion.
+ * @returns the value converters map.
+ */
 function createValueConvertersMap<TRow>(
   columns: List<IColumn<TRow>>
 ): Record<string, ValueConverter> {
