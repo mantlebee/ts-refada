@@ -4,9 +4,13 @@ import { IDatabase } from "@/interfaces";
 import { ColumnRelationAbstract } from "@/models";
 import { TableKey } from "@/types";
 
-import { getTargetRowInfo, setRelationMultiselectionValues } from "./utils";
 import { MultiselectionRelationColumnOptions, TargetRowInfo } from "./types";
+import { getTargetRowInfo, setRelationMultiselectionValues } from "./utils";
 
+/**
+ * Picks values from a different column of a target row.
+ * Values must be unique, like id or guid.
+ */
 export class MultiselectionRelationColumn<
   TRow,
   TTargetRow,
@@ -29,6 +33,12 @@ export class MultiselectionRelationColumn<
     super(name, [], targetTableKey, options);
   }
 
+  /**
+   * Returns info of the target row, useful to display something different from the column value.
+   * @param sourceRow Source row.
+   * @param database The database used to retrieve the target table and row.
+   * @returns A {@link TargetRowInfo} if all info are found, `null` if `table` or `row` are missing.
+   */
   public getTargetRowInfo(
     sourceRow: TRow,
     database: IDatabase

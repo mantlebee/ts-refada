@@ -14,6 +14,12 @@ import { shouldBeNull } from "@/utils";
 import { LookupRelationColumn } from "./models";
 import { LookupRelationColumnOptions, TargetRowInfo } from "./types";
 
+/**
+ * Returns info of the target row, useful to display something different from the column value.
+ * @param sourceRow Source row.
+ * @param database The database used to retrieve the target table and row.
+ * @returns A {@link TargetRowInfo} if all info are found, `null` if `table` or `row` are missing.
+ */
 export function getTargetRowInfo<TSourceRow, TTargetRow>(
   sourceColumn: LookupRelationColumn<TSourceRow, TTargetRow>,
   sourceRow: TSourceRow,
@@ -32,6 +38,16 @@ export function getTargetRowInfo<TSourceRow, TTargetRow>(
   }
   return null;
 }
+
+/**
+ * Iterates on all source rows to update the column value,
+ * picking it randomly from a different table, like a foreign key.
+ * @param sourceColumnName Name of the source column.
+ * @param targetColumnName name of the target column.
+ * @param sourceRows List of source rows to update.
+ * @param targetRows List of target rows to count.
+ * @param options Lookup relation column options.
+ */
 export function setRelationLookupValues<TSourceRow, TTargetRow>(
   sourceColumnName: KeyOf<TSourceRow>,
   targetColumnName: KeyOf<TTargetRow>,

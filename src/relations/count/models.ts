@@ -6,6 +6,10 @@ import { TableKey } from "@/types";
 import { RelationCountCondition } from "./types";
 import { setRelationCountValues } from "./utils";
 
+/**
+ * Updates source rows with a count of target rows,
+ * filtered using the {@link countCondition} delegate.
+ */
 export class CountRelationColumn<
   TRow,
   TTargetRow,

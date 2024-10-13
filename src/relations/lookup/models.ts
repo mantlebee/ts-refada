@@ -7,6 +7,9 @@ import { TableKey } from "@/types";
 import { LookupRelationColumnOptions, TargetRowInfo } from "./types";
 import { getTargetRowInfo, setRelationLookupValues } from "./utils";
 
+/**
+ * Like a foreign key, picks a unique value from a different column of a target row.
+ */
 export class LookupRelationColumn<
   TRow,
   TTargetRow,
@@ -31,7 +34,7 @@ export class LookupRelationColumn<
   }
 
   /**
-   *
+   * Returns info of the target row, useful to display something different from the column value.
    * @param sourceRow Source row.
    * @param database The database used to retrieve the target table and row.
    * @returns A {@link TargetRowInfo} if all info are found, `null` if `table` or `row` are missing.
