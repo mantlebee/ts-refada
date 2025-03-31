@@ -471,13 +471,13 @@ const database = new Database([
 const dataset = database
   .seed({
     [OrderProductsTableKey]: { max: 20, min: 1 }, // [DETAIL] each order must have between 1 and 20 ordered products
-    [OrdersTableKey]: { max: 10, min: 70 }, // between 700 and 1000 orders
-    [ProductCategoriesTableKey]: 5, // exactly 50 product categories
-    [ProductsTableKey]: 30, // exactly 300 products
+    [OrdersTableKey]: { max: 1000, min: 700 }, // between 700 and 1000 orders
+    [ProductCategoriesTableKey]: 50, // exactly 50 product categories
+    [ProductsTableKey]: 300, // exactly 300 products
     [UserAddressesTableKey]: { max: 5, min: 1 }, // [DETAIL] each user must have between 1 and 5 defined addresses
     [UserPaymentMethodsTableKey]: { max: 3, min: 1 }, // [DETAIL] each user must have between 1 and 3 defined payment methods
     [UsersPreferencesTableKey]: 1, // [DETAIL] each user must have 1 preferences row
-    [UsersTableKey]: 20, // exaclty 200 users
+    [UsersTableKey]: 200, // exaclty 200 users
   })
   .getDataset();
 //#endregion
